@@ -51,100 +51,100 @@ public class Alice {					// Client program
 			
 			String enc_p_kdc = encrypt(p_kdc);			// returns base64 encoded string
 			
-            // send to the server 
-            dos.writeUTF("Alice" + "," + enc_p_kdc);		// Alice, P_kdc
+            		// send to the server 
+            		dos.writeUTF("Alice" + "," + enc_p_kdc);		// Alice, P_kdc
             
-            /* Alice->KDC : "Alice", Base64[P_KDC("Alice", Pass, "Mail", TS1)]  */
-            alice_log.println(getTimestamp() + " Alice->KDC : \"Alice\", " + enc_p_kdc);
+            		/* Alice->KDC : "Alice", Base64[P_KDC("Alice", Pass, "Mail", TS1)]  */
+            		alice_log.println(getTimestamp() + " Alice->KDC : \"Alice\", " + enc_p_kdc);
             
 			String ticket = null;
 			String sessionKey = null;
 			
 			PrivateKey privKey;
 			
-	        try{
+	        	try{
 
-	            while (true){
+	            	while (true){
 
-	            	if (dis.available() > 0){
+	            		if (dis.available() > 0){
 	
-		                // receive from the server 
-		                String response = dis.readUTF();
+		                	// receive from the server 
+		                	String response = dis.readUTF();
 		                
-		                // if password denied, ask again, else go on
-		                if (response.equals("denied")){
+		                	// if password denied, ask again, else go on
+		                	if (response.equals("denied")){
 					
-		                	System.out.println("\n-----------------");
-		        		System.out.println("Password Denied");
-		                	
-		                	/* KDC->Alice : "Password Denied"  */
-		                	alice_log.println(getTimestamp() + " KDC->Alice : \"Password Denied\"");
-		                	
-		                	System.out.print("Enter a password: ");
-		                	String newPassword = scan.nextLine();
-		                	
-		        		System.out.print("Which server do you want to connect? ");
-		        		server = scan.nextLine();
-		        			
-		                	String new_p_kdc = "Alice" + "," + newPassword + "," + server + "," + ts1;
-		                	
-		                	/* Alice->KDC : "Alice", [Pass], "Mail", [TS1] */
-		                	alice_log.println(getTimestamp() + " Alice->KDC : " + new_p_kdc );
-		                	
-		                	dos.writeUTF("Alice" + "," + encrypt(new_p_kdc));
-		                	
-		                	/* Alice->KDC : "Alice", Base64[P_KDC("Alice", Pass, "Mail", TS1)] */
-		                	alice_log.println(getTimestamp() + " Alice->KDC : \"Alice\", " + encrypt(new_p_kdc));
-		                }
+						System.out.println("\n-----------------");
+						System.out.println("Password Denied");
+
+						/* KDC->Alice : "Password Denied"  */
+						alice_log.println(getTimestamp() + " KDC->Alice : \"Password Denied\"");
+
+						System.out.print("Enter a password: ");
+						String newPassword = scan.nextLine();
+
+						System.out.print("Which server do you want to connect? ");
+						server = scan.nextLine();
+
+						String new_p_kdc = "Alice" + "," + newPassword + "," + server + "," + ts1;
+
+						/* Alice->KDC : "Alice", [Pass], "Mail", [TS1] */
+						alice_log.println(getTimestamp() + " Alice->KDC : " + new_p_kdc );
+
+						dos.writeUTF("Alice" + "," + encrypt(new_p_kdc));
+
+						/* Alice->KDC : "Alice", Base64[P_KDC("Alice", Pass, "Mail", TS1)] */
+						alice_log.println(getTimestamp() + " Alice->KDC : \"Alice\", " + encrypt(new_p_kdc));
+					}
 		                
-		                else {
-		                	System.out.println("\n-----------------");
-		        		System.out.println("Password Verified.");
-		                	
-		                	/* KDC->Alice : "Password Verified"  */
-		                	alice_log.println(getTimestamp() + " KDC->Alice : \"Password Verified\"");
-		                	
-		                	/* KDC->Alice : Base64[P_A(K_A, "Mail", TS2)], Base64[Ticket] */ 
-			                alice_log.println(getTimestamp() + " KDC->Alice : " + response);
-			                
-			                privKey = getPrivateKey("Alice"); 		// get the private key of Alice
-			                
-			                String p_a = response.split(",")[0];
-			                sessionKey = decrypt(p_a, privKey).split(",")[0];
-			                String ts2 = decrypt(p_a, privKey).split(",")[1];
-			                
-			                ticket = response.split(",")[1];
-			                
-			                /* Message Decrypted : Base64[K_A], "Mail", [TS2] */
-					alice_log.println(getTimestamp() + " Message Decrypted : " + sessionKey + ", " + server + "," + ts2);
-			                
-			                // close connection. 
-			            	dos.close(); 
-			            	dis.close();
-			            	kdcServer.close();
-		                }
-	            	}
+		                	else {
+						System.out.println("\n-----------------");
+						System.out.println("Password Verified.");
+
+						/* KDC->Alice : "Password Verified"  */
+						alice_log.println(getTimestamp() + " KDC->Alice : \"Password Verified\"");
+
+						/* KDC->Alice : Base64[P_A(K_A, "Mail", TS2)], Base64[Ticket] */ 
+						alice_log.println(getTimestamp() + " KDC->Alice : " + response);
+
+						privKey = getPrivateKey("Alice"); 		// get the private key of Alice
+
+						String p_a = response.split(",")[0];
+						sessionKey = decrypt(p_a, privKey).split(",")[0];
+						String ts2 = decrypt(p_a, privKey).split(",")[1];
+
+						ticket = response.split(",")[1];
+
+						/* Message Decrypted : Base64[K_A], "Mail", [TS2] */
+						alice_log.println(getTimestamp() + " Message Decrypted : " + sessionKey + ", " + server + "," + ts2);
+
+						// close connection. 
+						dos.close(); 
+						dis.close();
+						kdcServer.close();
+					}
+	            		}
 	            	
-	            }
+	            	}
 
 	        } catch(Exception e){
 	        	
 	            System.out.println("KDC Server connection was closed.");
 	        }
 	        
-			// send data to the server 
-			DataOutputStream dosMail;
-			DataOutputStream dosWeb;
-			DataOutputStream dosDb;
+		// send data to the server 
+		DataOutputStream dosMail;
+		DataOutputStream dosWeb;
+		DataOutputStream dosDb;
 			
-			// read data from the server 
-			DataInputStream disMail;
-			DataInputStream disWeb;
-			DataInputStream disDb;
+		// read data from the server 
+		DataInputStream disMail;
+		DataInputStream disWeb;
+		DataInputStream disDb;
 			
-			String message;
-			SecureRandom random = new SecureRandom();
-			int nonce = random.nextInt();					// generate a random nonce value
+		String message;
+		SecureRandom random = new SecureRandom();
+		int nonce = random.nextInt();					// generate a random nonce value
 			
 	        if (server.contains("Mail")) {
 	        	
@@ -419,6 +419,7 @@ public class Alice {					// Client program
 	private static PrivateKey getPrivateKey(String id){		// get the private key from txt file
 		
 		PrivateKey privkey = null;
+		
 		try {
 			
 			BufferedReader br = new BufferedReader(new FileReader("./keys/key" + id + ".txt"));
@@ -441,6 +442,7 @@ public class Alice {					// Client program
 	public static String sesKeyEnc(String message, String key) {		// encrypt with session key
 		
 		String result = null;
+		
 		try{
 			
 			byte[] byte_session = Base64.getDecoder().decode(key);
@@ -462,6 +464,7 @@ public class Alice {					// Client program
 	public static String sesKeyDec(String message, String key) {		// decrypt with session key
 		
 		String result = null;
+		
 		try{
 			
 			byte[] byte_session = Base64.getDecoder().decode(key);
