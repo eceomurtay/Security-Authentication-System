@@ -33,8 +33,6 @@ public class Certificate {
 			cmdarray[13] = "huceng";
 			cmdarray[14] = "-keypass";
 			cmdarray[15] = "huceng";
-			/*cmdarray[16] = "-ext";
-			cmdarray[17] = "bc=ca:true";*/
 		}
 		
 		else {
@@ -189,7 +187,6 @@ public class Certificate {
 			int exitVal = process.waitFor();
 			
 			if (exitVal == 0) {
-				//System.out.println(id + " Public & Private keys were created.");
 			
 				Key privateKey = getPrivateKey(id);
 				byte[] byte_key = privateKey.getEncoded();
