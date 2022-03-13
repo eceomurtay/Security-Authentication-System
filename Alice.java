@@ -73,8 +73,9 @@ public class Alice {					// Client program
 		                
 		                // if password denied, ask again, else go on
 		                if (response.equals("denied")){
+					
 		                	System.out.println("\n-----------------");
-		        			System.out.println("Password Denied");
+		        		System.out.println("Password Denied");
 		                	
 		                	/* KDC->Alice : "Password Denied"  */
 		                	alice_log.println(getTimestamp() + " KDC->Alice : \"Password Denied\"");
@@ -82,8 +83,8 @@ public class Alice {					// Client program
 		                	System.out.print("Enter a password: ");
 		                	String newPassword = scan.nextLine();
 		                	
-		        			System.out.print("Which server do you want to connect? ");
-		        			server = scan.nextLine();
+		        		System.out.print("Which server do you want to connect? ");
+		        		server = scan.nextLine();
 		        			
 		                	String new_p_kdc = "Alice" + "," + newPassword + "," + server + "," + ts1;
 		                	
@@ -98,7 +99,7 @@ public class Alice {					// Client program
 		                
 		                else {
 		                	System.out.println("\n-----------------");
-		        			System.out.println("Password Verified.");
+		        		System.out.println("Password Verified.");
 		                	
 		                	/* KDC->Alice : "Password Verified"  */
 		                	alice_log.println(getTimestamp() + " KDC->Alice : \"Password Verified\"");
@@ -115,7 +116,7 @@ public class Alice {					// Client program
 			                ticket = response.split(",")[1];
 			                
 			                /* Message Decrypted : Base64[K_A], "Mail", [TS2] */
-							alice_log.println(getTimestamp() + " Message Decrypted : " + sessionKey + ", " + server + "," + ts2);
+					alice_log.println(getTimestamp() + " Message Decrypted : " + sessionKey + ", " + server + "," + ts2);
 			                
 			                // close connection. 
 			            	dos.close(); 
@@ -156,12 +157,12 @@ public class Alice {					// Client program
 	        	dosMail.writeUTF("Alice" + "," + ticket + "," + sesKeyEnc(Integer.toString(nonce), sessionKey));
 	        	
 	        	/* Alice->Mail : "Alice", [N_1]  */
-				alice_log.println(getTimestamp() + " Alice->Mail : \"Alice\", " + nonce);
+			alice_log.println(getTimestamp() + " Alice->Mail : \"Alice\", " + nonce);
 
-				/* Alice->Mail : "Alice", Base64[Ticket], Base64[K_A(N_1)]  */
-				alice_log.println(getTimestamp() + " Alice->Mail : \"Alice\", " + ticket + ", " + sesKeyEnc(Integer.toString(nonce), sessionKey));
+			/* Alice->Mail : "Alice", Base64[Ticket], Base64[K_A(N_1)]  */
+			alice_log.println(getTimestamp() + " Alice->Mail : \"Alice\", " + ticket + ", " + sesKeyEnc(Integer.toString(nonce), sessionKey));
 	        	
-				try{
+			try{
 
 		            while (true){
 
@@ -183,22 +184,22 @@ public class Alice {					// Client program
 			                	alice_log.println(getTimestamp() + " Message Decrypted : N1 is OK, N2=" + Integer.toString(nonce2-1));
 			                	
 			                	/* Alice->Mail : [N2+1] */
-								alice_log.println(getTimestamp() + "Alice->Mail : " + Integer.toString(nonce2));
+						alice_log.println(getTimestamp() + "Alice->Mail : " + Integer.toString(nonce2));
 								
-								dosMail.writeUTF("step5" + "," + sesKeyEnc(Integer.toString(nonce2), sessionKey));		// send N2+1 back to server
+						dosMail.writeUTF("step5" + "," + sesKeyEnc(Integer.toString(nonce2), sessionKey));		// send N2+1 back to server
 			                	
-								/* Alice->Mail : Base64[K_A(N2+1)]  */
-								alice_log.println(getTimestamp() + " Alice->Mail : " + sesKeyEnc(Integer.toString(nonce2), sessionKey));
+						/* Alice->Mail : Base64[K_A(N2+1)]  */
+						alice_log.println(getTimestamp() + " Alice->Mail : " + sesKeyEnc(Integer.toString(nonce2), sessionKey));
 			                }
 			                
 			                System.out.println("\n- - - - - - - - - -");
 			                System.out.println("Authentication is completed!");
 			                
 			                /* Mail->Alice : "Authentication is completed!"  */
-							alice_log.println(getTimestamp() + " Mail->Alice : " + "Authentication is completed!");
+					alice_log.println(getTimestamp() + " Mail->Alice : " + "Authentication is completed!");
 							
-							alice_log.close();
-							break;
+					alice_log.close();
+					break;
 		            	}
 		            	
 		            }
@@ -207,10 +208,10 @@ public class Alice {					// Client program
 
 		        } catch(Exception e){
 
-		            // close connection. 
+		            	// close connection. 
 		        	dosMail.close(); 
 		        	disMail.close();
-		            mailServer.close();
+		            	mailServer.close();
 		        }
 	        	
 	        }
@@ -225,10 +226,10 @@ public class Alice {					// Client program
 	        	dosWeb.writeUTF("Alice" + "," + ticket + "," + sesKeyEnc(Integer.toString(nonce), sessionKey));
 	        	
 	        	/* Alice->Web : "Alice", [N_1]  */
-				alice_log.println(getTimestamp() + " Alice->Web : \"Alice\", " + nonce);
+			alice_log.println(getTimestamp() + " Alice->Web : \"Alice\", " + nonce);
 
-				/* Alice->Web : "Alice", Base64[Ticket], Base64[K_A(N_1)]  */
-				alice_log.println(getTimestamp() + " Alice->Web : \"Alice\", " + ticket + ", " + sesKeyEnc(Integer.toString(nonce), sessionKey));
+			/* Alice->Web : "Alice", Base64[Ticket], Base64[K_A(N_1)]  */
+			alice_log.println(getTimestamp() + " Alice->Web : \"Alice\", " + ticket + ", " + sesKeyEnc(Integer.toString(nonce), sessionKey));
 	        	
 	        	try{
 
@@ -252,22 +253,22 @@ public class Alice {					// Client program
 			                	alice_log.println(getTimestamp() + " Message Decrypted : N1 is OK, N2=" + Integer.toString(nonce2-1));
 			                	
 			                	/* Alice->Web : [N2+1] */
-								alice_log.println(getTimestamp() + "Alice->Web : " + Integer.toString(nonce2));
+						alice_log.println(getTimestamp() + "Alice->Web : " + Integer.toString(nonce2));
 								
-								dosWeb.writeUTF("step5" + "," + sesKeyEnc(Integer.toString(nonce2), sessionKey));		// send N2+1 back to server
+						dosWeb.writeUTF("step5" + "," + sesKeyEnc(Integer.toString(nonce2), sessionKey));		// send N2+1 back to server
 			                	
-								/* Alice->Web : Base64[K_A(N2+1)]  */
-								alice_log.println(getTimestamp() + " Alice->Web : " + sesKeyEnc(Integer.toString(nonce2), sessionKey));
+						/* Alice->Web : Base64[K_A(N2+1)]  */
+						alice_log.println(getTimestamp() + " Alice->Web : " + sesKeyEnc(Integer.toString(nonce2), sessionKey));
 			                }
 			                
 			                System.out.println("\n- - - - - - - - - -");
 			                System.out.println("Authentication is completed!");
 			                
 			                /* Web->Alice : "Authentication is completed!"  */
-							alice_log.println(getTimestamp() + " Web->Alice : " + "Authentication is completed!");
+					alice_log.println(getTimestamp() + " Web->Alice : " + "Authentication is completed!");
 							
-							alice_log.close();
-							break;
+					alice_log.close();
+					break;
 		            	}
 		            	
 		            }
@@ -276,10 +277,10 @@ public class Alice {					// Client program
 
 		        } catch(Exception e){
 
-		            // close connection. 
+		            	// close connection. 
 		        	dosWeb.close(); 
-		            disWeb.close();
-		            webServer.close();
+		            	disWeb.close();
+		            	webServer.close();
 		        }
 	        	
 	        }
@@ -294,10 +295,10 @@ public class Alice {					// Client program
 	        	dosDb.writeUTF("Alice" + "," + ticket + "," + sesKeyEnc(Integer.toString(nonce), sessionKey));
 	        	
 	        	/* Alice->Database : "Alice", [N_1]  */
-				alice_log.println(getTimestamp() + " Alice->Database : \"Alice\", " + nonce);
+			alice_log.println(getTimestamp() + " Alice->Database : \"Alice\", " + nonce);
 
-				/* Alice->Database : "Alice", Base64[Ticket], Base64[K_A(N_1)]  */
-				alice_log.println(getTimestamp() + " Alice->Database : \"Alice\", " + ticket + ", " + sesKeyEnc(Integer.toString(nonce), sessionKey));
+			/* Alice->Database : "Alice", Base64[Ticket], Base64[K_A(N_1)]  */
+			alice_log.println(getTimestamp() + " Alice->Database : \"Alice\", " + ticket + ", " + sesKeyEnc(Integer.toString(nonce), sessionKey));
 	        	
 	        	try{
 
@@ -321,22 +322,22 @@ public class Alice {					// Client program
 			                	alice_log.println(getTimestamp() + " Message Decrypted : N1 is OK, N2=" + Integer.toString(nonce2-1));
 			                	
 			                	/* Alice->Database : [N2+1] */
-								alice_log.println(getTimestamp() + "Alice->Database : " + Integer.toString(nonce2));
+						alice_log.println(getTimestamp() + "Alice->Database : " + Integer.toString(nonce2));
 								
-								dosDb.writeUTF("step5" + "," + sesKeyEnc(Integer.toString(nonce2), sessionKey));		// send N2+1 back to server
+						dosDb.writeUTF("step5" + "," + sesKeyEnc(Integer.toString(nonce2), sessionKey));		// send N2+1 back to server
 			                	
-								/* Alice->Database : Base64[K_A(N2+1)]  */
-								alice_log.println(getTimestamp() + " Alice->Database : " + sesKeyEnc(Integer.toString(nonce2), sessionKey));
+						/* Alice->Database : Base64[K_A(N2+1)]  */
+						alice_log.println(getTimestamp() + " Alice->Database : " + sesKeyEnc(Integer.toString(nonce2), sessionKey));
 			                }
 			                
 			                System.out.println("\n- - - - - - - - - -");
 			                System.out.println("Authentication is completed!");
 			                
 			                /* Database->Alice : "Authentication is completed!"  */
-							alice_log.println(getTimestamp() + " Database->Alice : " + "Authentication is completed!");
+					alice_log.println(getTimestamp() + " Database->Alice : " + "Authentication is completed!");
 							
-							alice_log.close();
-							break;
+					alice_log.close();
+					break;
 			                
 		            	}
 		            	
@@ -346,15 +347,15 @@ public class Alice {					// Client program
 
 		        } catch(Exception e){
 
-		            // close connection. 
+		            	// close connection. 
 		        	dosDb.close(); 
-		            disDb.close();
-		            dbServer.close();
+		            	disDb.close();
+		            	dbServer.close();
 		        }
 	        	
 	        }
 	        
-			scan.close();
+		scan.close();
 	        
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -465,9 +466,6 @@ public class Alice {					// Client program
 			
 			byte[] byte_session = Base64.getDecoder().decode(key);
 			byte[] byte_msg = Base64.getDecoder().decode(message);
-			
-			/*KeyFactory keyfactory = KeyFactory.getInstance("RSA");
-			Key session = keyfactory.generatePublic(new X509EncodedKeySpec(byte_session));*/
 			
 			Key session = new SecretKeySpec(byte_session, 0, byte_session.length, "AES");
 			
