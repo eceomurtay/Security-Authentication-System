@@ -14,4 +14,4 @@ Scenario of Alice tries to communicate with Mail server:
 ## Usage
 Execution sequence: KDC 🠊 Alice 🠊 Selected server
 
-Get requested password in Alice (client program) from KDC_Log.txt
+When the client program (Alice) is executed, a password is requested from the user. You can get it from KDC_Log.txt. Then, a server name is requested. In this step, the user should enter “Mail”, “Web” or “Database”, otherwise the program should request the choice again.
