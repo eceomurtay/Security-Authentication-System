@@ -3,5 +3,6 @@ An authentication system like Needham-Schroeder protocol with public - private k
 
 
 ## Usage
-Execution sequence:
-  KDC -> Alice -> Selected server
+Execution sequence: KDC 🠊 Alice 🠊 Selected server
+
+Get requested password in Alice from KDC_Log.txt
