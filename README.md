@@ -3,7 +3,7 @@ An authentication system like Needham-Schroeder protocol with public - private k
 
 ![alt text](https://github.com/eceomurtay/Security-Authentication-System/blob/main/scenario.jpg)
 
-> Scenario of Alice tries to communicate with Mail server:
+Scenario of Alice tries to communicate with Mail server:
 
 > 1. Alice, P_KDC(“Alice”, Pass, “Mail”, TS1) 🠊 Alice sends KDC her id with a content encrypted with the public key of KDC. The encrypted message includes her id, her password, id of Mail Server and a timestamp. KDC decrypts Alice message with its own private key. Then, in the second message, KDC sends a message and ticket information back to Alice.
 > 2. P_A(K_A, “Mail”, TS2), Ticket = P_Mail (“Alice”, “Mail”, TS2, K_A) 🠊 KDC’s message has two parts. First part is encrpyted with public key of Alice and includes session key (K_A), ID of Mail Server and a timestamp. Second part contains a ticket encrypted with public key of Mail Server and includes IDs of Alice and mail Server, same timestamp and session key values. Alice decrypts the first part of message with her own private key and gets the session key and also stores the ticket. 
