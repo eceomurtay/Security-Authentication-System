@@ -1,7 +1,7 @@
 # Security Authentication System
 An authentication system like Needham-Schroeder protocol with public - private key cryptosystem
 
-![alt text] (https://github.com/eceomurtay/Security-Authentication-System/blob/main/scenario.jpg)
+![alt text](https://github.com/eceomurtay/Security-Authentication-System/blob/main/scenario.jpg)
 
 
 ## Usage
